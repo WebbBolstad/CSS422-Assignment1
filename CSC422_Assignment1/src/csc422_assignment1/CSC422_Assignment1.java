@@ -46,18 +46,20 @@ public class CSC422_Assignment1 {
 
     private static void addPet() {
         try (Scanner kb = new Scanner(System.in)){
-            boolean loop = true;
-            while (loop == true){
-                System.out.println("Add pet (name, age):");
-                String petName = kb.next();
-                int petAge = Integer.parseInt(kb.next());
-                
-                if (petName.equalsIgnoreCase("done")){ 
-                    loop = false;
-                    break;}
-                petList.add(new Pet(petName, petAge));
+            System.out.print("add pet (name, age): ");
+            String petName = kb.next();
+            int petAge = Integer.parseInt(kb.next());
+            
+            petList.add(new Pet(petName, petAge));
+            
+            System.out.printf("Would you like to add another pet? \n"
+                    + "1) Yes \n"
+                    + "2) No \n");
+            int choice = kb.nextInt();
+            switch (choice){
+                case 1:  addPet();
+                default: mainMenu();
             }
         }
-        mainMenu();
     }
 }
