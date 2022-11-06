@@ -91,7 +91,31 @@ public class CSC422_Assignment1 {
     
     
     private static void updatePet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try (Scanner kb = new Scanner(System.in)) {
+            System.out.printf("+-----------------------+\n"
+                + "| ID | NAME       | AGE |\n"
+                + "+-----------------------+\n");
+        
+            for(int i=0; i<petList.size(); i++){
+                System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+            }
+        
+            System.out.print("+-----------------------+\n"
+                + petList.size() + " rows in set.\n");
+            
+            System.out.println("Enter the pet ID to update: ");
+            int id = kb.nextInt();
+            
+            System.out.println("Enter new name and age:");
+            String newName = kb.next();
+            int newAge = Integer.parseInt(kb.next());
+            
+            System.out.printf("%s %d changed to %s %d \n", petList.get(id).getName(), petList.get(id).getAge(), newName, newAge);
+            petList.get(id).setName(newName);
+            petList.get(id).setAge(newAge);
+            
+            mainMenu();
+        }
     }
 
     
