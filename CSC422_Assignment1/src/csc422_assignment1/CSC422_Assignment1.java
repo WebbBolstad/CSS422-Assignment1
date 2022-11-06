@@ -22,7 +22,8 @@ public class CSC422_Assignment1 {
     public static void main(String[] args) {
         mainMenu();
     }
-
+    
+    
     private static void mainMenu() {
         try (Scanner kb = new Scanner(System.in)) {
             System.out.printf("What would you like to do? \n"
@@ -35,31 +36,42 @@ public class CSC422_Assignment1 {
             switch(choice){
                 case 1: viewAllPets();
                 case 2: addPet();
-                case 3: break;
+                case 3: System.exit(0);
             }
         }
     }
-
-    private static void viewAllPets() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    
+     private static void viewAllPets() {
+        
+        System.out.printf("+-----------------------+\n"
+                + "| ID | NAME       | AGE |\n"
+                + "+-----------------------+\n");
+        
+        for(int i=0; i<petList.size(); i++){
+            System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+        }
+        
+        System.out.print("+-----------------------+\n"
+                + petList.size() + " rows in set.\n");
+        
+        mainMenu();
     }
 
+     
     private static void addPet() {
         try (Scanner kb = new Scanner(System.in)){
-            System.out.print("add pet (name, age): ");
-            String petName = kb.next();
-            int petAge = Integer.parseInt(kb.next());
+            boolean loop = true;
+            while (loop ==true){
+                System.out.print("add pet (name, age): ");
+                String petName = kb.next();
+                int petAge = Integer.parseInt(kb.next());
             
-            petList.add(new Pet(petName, petAge));
+                if (petName.equalsIgnoreCase("done")){ loop = false; }
             
-            System.out.printf("Would you like to add another pet? \n"
-                    + "1) Yes \n"
-                    + "2) No \n");
-            int choice = kb.nextInt();
-            switch (choice){
-                case 1:  addPet();
-                default: mainMenu();
+                if (loop == true) { petList.add(new Pet(petName, petAge)); }
             }
+            mainMenu();
         }
     }
 }
