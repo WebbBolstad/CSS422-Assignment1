@@ -50,7 +50,8 @@ public class CSC422_Assignment1 {
                     System.out.println("Enter an age to search:");
                     int age = kb.nextInt();
                     searchByAge(age);
-                case 7: System.exit(0);
+                case 7: 
+                default: System.exit(0);
             }
         }
     }
