@@ -5,11 +5,13 @@
  */
 package csc422_assignment1;
 
+import java.io.Serializable;
+
 /**
  *
  * @author webbb
  */
-public class Pet {
+public class Pet implements Serializable{
     
     private String name;
     private int age;
