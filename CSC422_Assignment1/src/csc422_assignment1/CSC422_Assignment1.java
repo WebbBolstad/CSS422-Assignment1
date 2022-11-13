@@ -5,8 +5,15 @@
  */
 package csc422_assignment1;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,12 +22,26 @@ import java.util.Scanner;
 public class CSC422_Assignment1 {
     
     private static ArrayList<Pet> petList = new ArrayList<>();
+    private static final String fileName = "petList";
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        mainMenu();
+    public static void main(String[] args){
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream(fileName));
+            petList = (ArrayList) in.readObject();
+            mainMenu();
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     
@@ -30,7 +51,7 @@ public class CSC422_Assignment1 {
                     + "1) View all pets \n"
                     + "2) Add more pets \n"
                     + "3) Update an existing pet \n"
-                    + "4) Remove and existing pet \n"
+                    + "4) Remove an existing pet \n"
                     + "5) Search pets by name \n"
                     + "6) Search pets by age \n"
                     + "7) Exit Program \n");
@@ -50,13 +71,15 @@ public class CSC422_Assignment1 {
                     System.out.println("Enter an age to search:");
                     int age = kb.nextInt();
                     searchByAge(age);
-                case 7: System.exit(0);
+                case 7: 
+                default: 
+                    saveList();
+                    System.exit(0);
             }
-        }
-    }
+        }    }
     
     
-     private static void viewAllPets() {
+     private static void viewAllPets(){
         
         System.out.printf("+-----------------------+\n"
                 + "| ID | NAME       | AGE |\n"
@@ -73,7 +96,7 @@ public class CSC422_Assignment1 {
     }
 
      
-    private static void addPet() {
+    private static void addPet(){
         try (Scanner kb = new Scanner(System.in)){
             boolean loop = true;
             while (loop ==true){
@@ -90,7 +113,7 @@ public class CSC422_Assignment1 {
     }
     
     
-    private static void updatePet() {
+    private static void updatePet(){
          try (Scanner kb = new Scanner(System.in)) {
             System.out.printf("+-----------------------+\n"
                 + "| ID | NAME       | AGE |\n"
@@ -119,7 +142,7 @@ public class CSC422_Assignment1 {
     }
 
     
-    private static void removePet() {
+    private static void removePet(){
         try (Scanner kb = new Scanner(System.in)) {
             System.out.printf("+-----------------------+\n"
                 + "| ID | NAME       | AGE |\n"
@@ -143,7 +166,7 @@ public class CSC422_Assignment1 {
     }
 
     
-    private static void searchByName(String name) {
+    private static void searchByName(String name){
         System.out.printf("+-----------------------+\n"
                 + "| ID | NAME       | AGE |\n"
                 + "+-----------------------+\n");
@@ -163,7 +186,7 @@ public class CSC422_Assignment1 {
     }
 
     
-    private static void searchByAge(int age) {
+    private static void searchByAge(int age){
         System.out.printf("+-----------------------+\n"
                 + "| ID | NAME       | AGE |\n"
                 + "+-----------------------+\n");
@@ -180,5 +203,23 @@ public class CSC422_Assignment1 {
                 + counter + " rows in set.\n");
         
         mainMenu();
+    }
+
+    private static void saveList(){
+        
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(fileName));
+            out.writeObject(petList);
+        } catch (IOException ex) {
+            Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 }
