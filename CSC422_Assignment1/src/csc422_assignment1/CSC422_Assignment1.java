@@ -100,12 +100,21 @@ public class CSC422_Assignment1 {
     private static void addPet(){
         try (Scanner kb = new Scanner(System.in)){
             boolean loop = true;
+            
             while (loop ==true){
                 System.out.print("add pet (name, age): ");
                 String petName = kb.next();
                 int petAge = Integer.parseInt(kb.next());
             
                 if (petName.equalsIgnoreCase("done")){ loop = false; }
+                if (petList.size() >= 5){ 
+                    System.out.println("You cannot have more than 5 pets in your list"); 
+                    loop = false;
+                }
+                if (petAge > 20 || petAge <1){ 
+                    System.out.println("Pet age must be between 1-20");
+                    loop = false;
+                }
             
                 if (loop == true) { petList.add(new Pet(petName, petAge)); }
             }
@@ -129,6 +138,10 @@ public class CSC422_Assignment1 {
             
             System.out.println("Enter the pet ID to update: ");
             int id = kb.nextInt();
+            if (id < 0 || id >= petList.size()){
+                System.out.println("Please enter an Id that matches a pet on the list");
+                updatePet();
+            }
             
             System.out.println("Enter new name and age:");
             String newName = kb.next();
@@ -158,6 +171,10 @@ public class CSC422_Assignment1 {
             
             System.out.println("Enter the pet ID to remove: ");
             int id = kb.nextInt();
+            if (id < 0 || id >= petList.size()){
+                System.out.println("Please enter an Id that matches a pet on the list");
+                removePet();
+            }
             
             System.out.println(petList.get(id).getName() + " has been removed from the list");
             petList.remove(id);
