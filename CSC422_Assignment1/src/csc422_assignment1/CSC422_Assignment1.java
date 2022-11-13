@@ -45,7 +45,7 @@ public class CSC422_Assignment1 {
     }
     
     
-    private static void mainMenu() {
+    private static void mainMenu() throws IOException {
         try (Scanner kb = new Scanner(System.in)) {
             System.out.printf("What would you like to do? \n"
                     + "1) View all pets \n"
@@ -81,18 +81,22 @@ public class CSC422_Assignment1 {
     
      private static void viewAllPets(){
         
-        System.out.printf("+-----------------------+\n"
-                + "| ID | NAME       | AGE |\n"
-                + "+-----------------------+\n");
-        
-        for(int i=0; i<petList.size(); i++){
-            System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+        try {
+            System.out.printf("+-----------------------+\n"
+                    + "| ID | NAME       | AGE |\n"
+                    + "+-----------------------+\n");
+            
+            for(int i=0; i<petList.size(); i++){
+                System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+            }
+            
+            System.out.print("+-----------------------+\n"
+                    + petList.size() + " rows in set.\n");
+            
+            mainMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        System.out.print("+-----------------------+\n"
-                + petList.size() + " rows in set.\n");
-        
-        mainMenu();
     }
 
      
@@ -108,7 +112,11 @@ public class CSC422_Assignment1 {
             
                 if (loop == true) { petList.add(new Pet(petName, petAge)); }
             }
-            mainMenu();
+            try {
+                mainMenu();
+            } catch (IOException ex) {
+                Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -137,7 +145,11 @@ public class CSC422_Assignment1 {
             petList.get(id).setName(newName);
             petList.get(id).setAge(newAge);
             
-            mainMenu();
+             try {
+                 mainMenu();
+             } catch (IOException ex) {
+                 Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+             }
         }
     }
 
@@ -161,48 +173,60 @@ public class CSC422_Assignment1 {
             System.out.println(petList.get(id).getName() + " has been removed from the list");
             petList.remove(id);
             
-            mainMenu();
+            try {
+                mainMenu();
+            } catch (IOException ex) {
+                Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     
     private static void searchByName(String name){
-        System.out.printf("+-----------------------+\n"
-                + "| ID | NAME       | AGE |\n"
-                + "+-----------------------+\n");
-        
-        int counter = 0;
-        for(int i=0; i<petList.size(); i++){
-            if (petList.get(i).getName().equalsIgnoreCase(name)) { 
-                System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge()); 
-                counter++;
+        try {
+            System.out.printf("+-----------------------+\n"
+                    + "| ID | NAME       | AGE |\n"
+                    + "+-----------------------+\n");
+            
+            int counter = 0;
+            for(int i=0; i<petList.size(); i++){
+                if (petList.get(i).getName().equalsIgnoreCase(name)) {
+                    System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+                    counter++;
+                }
             }
+            
+            System.out.print("+-----------------------+\n"
+                    + counter + " rows in set.\n");
+            
+            mainMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        System.out.print("+-----------------------+\n"
-                + counter + " rows in set.\n");
-        
-        mainMenu();
     }
 
     
     private static void searchByAge(int age){
-        System.out.printf("+-----------------------+\n"
-                + "| ID | NAME       | AGE |\n"
-                + "+-----------------------+\n");
-        
-        int counter = 0;
-        for(int i=0; i<petList.size(); i++){
-            if (petList.get(i).getAge() == age) { 
-                System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
-                counter++;
+        try {
+            System.out.printf("+-----------------------+\n"
+                    + "| ID | NAME       | AGE |\n"
+                    + "+-----------------------+\n");
+            
+            int counter = 0;
+            for(int i=0; i<petList.size(); i++){
+                if (petList.get(i).getAge() == age) {
+                    System.out.printf("| %2d | %-10s | %3d |\n", i, petList.get(i).getName(), petList.get(i).getAge());
+                    counter++;
+                }
             }
+            
+            System.out.print("+-----------------------+\n"
+                    + counter + " rows in set.\n");
+            
+            mainMenu();
+        } catch (IOException ex) {
+            Logger.getLogger(CSC422_Assignment1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        System.out.print("+-----------------------+\n"
-                + counter + " rows in set.\n");
-        
-        mainMenu();
     }
 
     private static void saveList(){
